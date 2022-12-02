@@ -37,8 +37,23 @@ public class DefaultBookService implements BookService {
     }
 
     @Override
-    public Book updateBook(UUID bookId, Category category, int price, Status status) {
-        return null;
+    public Optional<Book> updateBook(UUID bookId, Category category, int price, Status status) {
+        Optional<Book> maybeBook = getBookById(bookId);
+        if (maybeBook.isEmpty()) {
+            return Optional.empty();
+        }
+        Book book = new Book(
+                bookId,
+                maybeBook.get().getTitle(),
+                category,
+                price,
+                maybeBook.get().getAuthor(),
+                status,
+                maybeBook.get().getIsbn(),
+                maybeBook.get().getCreatedAt(),
+                LocalDateTime.now()
+        );
+        return Optional.of(bookRepository.update(book));
     }
 
     @Override

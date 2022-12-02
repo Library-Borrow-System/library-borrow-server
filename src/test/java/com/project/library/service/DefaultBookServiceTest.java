@@ -80,5 +80,17 @@ class DefaultBookServiceTest {
         assertThat(book.isEmpty(), is(false));
     }
 
+    @Test
+    @Order(3)
+    @DisplayName("책을 수정할 수 있다")
+    void testUpdateBook() {
+        Category updatedCategory = Category.FANTASY;
+        int updatedPrice = 2000;
+        Status updatedStatus = Status.BORROW_IMPOSSIBLE;
+        Optional<Book> updateBook = bookService.updateBook(bookId, updatedCategory, updatedPrice, updatedStatus);
+        assertThat(updateBook.isEmpty(), is(false));
+        assertThat(updateBook, samePropertyValuesAs(bookService.getBookById(bookId)));
+    }
+
 
 }

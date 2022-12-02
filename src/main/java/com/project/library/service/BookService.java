@@ -16,7 +16,7 @@ public interface BookService {
 
     Optional<Book> getBookById(UUID bookId);
 
-    Book updateBook(UUID bookId, Category category, int price, Status status);
+    Optional<Book> updateBook(UUID bookId, Category category, int price, Status status);
 
     void deleteBook(UUID bookId);
 }
