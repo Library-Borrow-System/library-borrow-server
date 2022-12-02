@@ -4,6 +4,7 @@ import com.project.library.domain.Book;
 import com.project.library.domain.Category;
 import com.project.library.domain.Status;
 import com.project.library.utils.Queries;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -39,7 +40,16 @@ public class BookJdbcRepository implements BookRepository {
 
     @Override
     public Optional<Book> findById(UUID bookId) {
-        return Optional.empty();
+        try {
+            Book book = jdbcTemplate.queryForObject(
+                    Queries.BOOK_FIND_BY_ID_SQL.getQuery(),
+                    Collections.singletonMap("bookId", bookId.toString().getBytes()),
+                    bookRowMapper
+            );
+            return Optional.ofNullable(book);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override

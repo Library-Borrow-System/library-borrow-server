@@ -15,13 +15,14 @@ import com.wix.mysql.EmbeddedMysql;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 @SpringBootTest
-@TestMethodOrder(MethodOrderer.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class BookJdbcRepositoryTest {
@@ -58,6 +59,14 @@ class BookJdbcRepositoryTest {
         bookRepository.insert(newBook);
         List<Book> all = bookRepository.findAll();
         assertThat(all.isEmpty(), is(false));
+    }
+
+    @Test
+    @Order(2)
+    @DisplayName("책을 아이디로 조회할 수 있다")
+    void testFindById() {
+        Optional<Book> book = bookRepository.findById(newBook.getBookId());
+        assertThat(book.isEmpty(), is(false));
     }
 
 }
