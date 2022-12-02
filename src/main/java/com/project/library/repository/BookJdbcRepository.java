@@ -54,7 +54,11 @@ public class BookJdbcRepository implements BookRepository {
 
     @Override
     public Book update(Book book) {
-        return null;
+        int update = jdbcTemplate.update(Queries.BOOK_UPDATE_SQL.getQuery(), toParamMap(book));
+        if (update != 1) {
+            throw new RuntimeException("Nothing was updated");
+        }
+        return book;
     }
 
     @Override

@@ -69,4 +69,15 @@ class BookJdbcRepositoryTest {
         assertThat(book.isEmpty(), is(false));
     }
 
+    @Test
+    @Order(3)
+    @DisplayName("책을 수정할 수 있다")
+    void testUpdate() {
+        Book updatedBook = new Book(newBook.getBookId(), newBook.getTitle(), Category.FANTASY, 2000, newBook.getAuthor(), Status.BORROW_IMPOSSIBLE, newBook.getIsbn(), newBook.getCreatedAt(), LocalDateTime.now());
+        bookRepository.update(updatedBook);
+        Optional<Book> book = bookRepository.findById(newBook.getBookId());
+        assertThat(book.isEmpty(), is(false));
+        assertThat(book.get(), samePropertyValuesAs(updatedBook));
+    }
+
 }
