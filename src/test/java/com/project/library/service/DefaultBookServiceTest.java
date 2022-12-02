@@ -92,5 +92,12 @@ class DefaultBookServiceTest {
         assertThat(updateBook, samePropertyValuesAs(bookService.getBookById(bookId)));
     }
 
-
+    @Test
+    @Order(4)
+    @DisplayName("책을 삭제할 수 있다")
+    void testDeleteBook() {
+        bookService.deleteBook(bookId);
+        List<Book> allBooks = bookService.getAllBooks();
+        assertThat(allBooks.isEmpty(), is(true));
+    }
 }

@@ -58,6 +58,6 @@ public class DefaultBookService implements BookService {
 
     @Override
     public void deleteBook(UUID bookId) {
-
+        bookRepository.deleteById(bookId);
     }
 }
