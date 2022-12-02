@@ -15,7 +15,7 @@ public enum Queries {
     // BorrowItem
     BORROW_ITEM_INSERT_SQL("INSERT INTO borrow_items (borrow_id, book_id, fee, term, borrow_at, return_at) VALUES (UUID_TO_BIN(:borrowId), UUID_TO_BIN(:bookId), :fee, :term, :borrowAt, :returnAt)"),
     BORROW_ITEM_FIND_BY_BORROW_ID_SQL("SELECT * FROM borrow_items WHERE borrow_id = UUID_TO_BIN(:borrowId)"),
-    BORROW_ITEM_FIND_ALL_SQL("SELECT * FROM borrow_items");
+    BORROW_ITEM_FIND_BORROWING_SQL("SELECT * FROM borrow_items WHERE return_at IS NULL");
 
     private final String sql;
 

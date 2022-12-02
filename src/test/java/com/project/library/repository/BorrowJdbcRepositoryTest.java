@@ -79,4 +79,12 @@ class BorrowJdbcRepositoryTest {
         assertThat(all.get(0).getBorrowItems().isEmpty(), is(false));
     }
 
+    @Test
+    @Order(4)
+    @DisplayName("대여 중인 내역을 조회할 수 있다")
+    public void testFindBorrowingItem() {
+        List<BorrowItem> borrowingItem = borrowRepository.findBorrowingItem();
+        assertThat(borrowingItem.isEmpty(), is(false));
+    }
+
 }

@@ -38,6 +38,14 @@ public class BorrowJdbcRepository implements BorrowRepository {
     }
 
     @Override
+    public List<BorrowItem> findBorrowingItem() {
+        return jdbcTemplate.query(
+                Queries.BORROW_ITEM_FIND_BORROWING_SQL.getQuery(),
+                borrowItemRowMapper
+        );
+    }
+
+    @Override
     public Borrow update(Borrow borrow) {
         return null;
     }
