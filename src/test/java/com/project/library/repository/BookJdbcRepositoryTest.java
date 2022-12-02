@@ -80,4 +80,13 @@ class BookJdbcRepositoryTest {
         assertThat(book.get(), samePropertyValuesAs(updatedBook));
     }
 
+    @Test
+    @Order(4)
+    @DisplayName("책을 아이디로 삭제할 수 있다")
+    void testDeleteById() {
+        bookRepository.deleteById(newBook.getBookId());
+        Optional<Book> book = bookRepository.findById(newBook.getBookId());
+        assertThat(book.isEmpty(), is(true));
+    }
+
 }

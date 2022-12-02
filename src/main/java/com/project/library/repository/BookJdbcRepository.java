@@ -62,8 +62,11 @@ public class BookJdbcRepository implements BookRepository {
     }
 
     @Override
-    public Book deleteById(UUID bookId) {
-        return null;
+    public void deleteById(UUID bookId) {
+        jdbcTemplate.update(
+                Queries.BOOK_DELETE_BY_ID.getQuery(),
+                Collections.singletonMap("bookId", bookId.toString().getBytes())
+        );
     }
 
     private Map<String, Object> toParamMap(Book book) {
