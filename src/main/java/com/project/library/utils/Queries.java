@@ -6,7 +6,16 @@ public enum Queries {
     BOOK_FIND_ALL_SQL("SELECT * FROM books"),
     BOOK_FIND_BY_ID_SQL("SELECT * FROM books WHERE book_id = UUID_TO_BIN(:bookId)"),
     BOOK_UPDATE_SQL("UPDATE books SET category = :category, price = :price, status = :status, updated_at = :updatedAt WHERE book_id = UUID_TO_BIN(:bookId)"),
-    BOOK_DELETE_BY_ID("DELETE FROM books WHERE book_id = UUID_TO_BIN(:bookId)");
+    BOOK_DELETE_BY_ID("DELETE FROM books WHERE book_id = UUID_TO_BIN(:bookId)"),
+
+    // Borrow
+    BORROW_INSERT_SQL("INSERT INTO borrows (borrow_id, email, phone_num, created_at, updated_at) VALUES (UUID_TO_BIN(:borrowId), :email, :phoneNum, :createdAt, :updatedAt)"),
+    BORROW_FIND_ALL_SQL("SELECT * FROM borrows"),
+
+    // BorrowItem
+    BORROW_ITEM_INSERT_SQL("INSERT INTO borrow_items (borrow_id, book_id, fee, term, borrow_at, return_at) VALUES (UUID_TO_BIN(:borrowId), UUID_TO_BIN(:bookId), :fee, :term, :borrowAt, :returnAt)"),
+    BORROW_ITEM_FIND_BY_BORROW_ID_SQL("SELECT * FROM borrow_items WHERE borrow_id = UUID_TO_BIN(:borrowId)"),
+    BORROW_ITEM_FIND_ALL_SQL("SELECT * FROM borrow_items");
 
     private final String sql;
 
