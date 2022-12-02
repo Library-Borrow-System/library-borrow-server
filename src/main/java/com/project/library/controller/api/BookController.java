@@ -55,4 +55,10 @@ public class BookController {
         );
         return book.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
+
+    @DeleteMapping("/api/v1/book/{bookId}")
+    public String deleteBook(@PathVariable("bookId") String bookId) {
+        bookService.deleteBook(UUID.fromString(bookId));
+        return "해당 값이 삭제되었습니다";
+    }
 }
