@@ -1,12 +1,14 @@
 package com.project.library.controller.api;
 
 import com.project.library.controller.CreateBookRequest;
+import com.project.library.controller.UpdateBookRequest;
 import com.project.library.domain.Book;
 import com.project.library.service.BookService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -35,10 +37,22 @@ public class BookController {
     }
 
     @GetMapping("/api/v1/book/{bookId}")
-    @ResponseBody()
+    @ResponseBody
     public ResponseEntity<Book> getBookById(@PathVariable("bookId") String bookId) {
         return bookService.getBookById(UUID.fromString(bookId))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/api/v1/book/{bookId}")
+    @ResponseBody
+    public ResponseEntity<Book> updateBook(@PathVariable("bookId") String bookId, @RequestBody UpdateBookRequest bookRequest) {
+        Optional<Book> book = bookService.updateBook(
+                UUID.fromString(bookId),
+                bookRequest.category(),
+                bookRequest.price(),
+                bookRequest.status()
+        );
+        return book.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 }
