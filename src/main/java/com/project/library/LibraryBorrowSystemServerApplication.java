@@ -1,4 +1,4 @@
-package com.project.library.libraryborrowsystemserver;
+package com.project.library;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
