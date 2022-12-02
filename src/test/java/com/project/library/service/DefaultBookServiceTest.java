@@ -16,6 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.*;
@@ -69,6 +70,14 @@ class DefaultBookServiceTest {
         bookId = book.getBookId();
         List<Book> allBooks = bookService.getAllBooks();
         assertThat(allBooks.isEmpty(), is(false));
+    }
+
+    @Test
+    @Order(2)
+    @DisplayName("아이디로 조회할 수 있다")
+    void testGetBookById() {
+        Optional<Book> book = bookService.getBookById(bookId);
+        assertThat(book.isEmpty(), is(false));
     }
 
 

@@ -33,7 +33,7 @@ public class DefaultBookService implements BookService {
 
     @Override
     public Optional<Book> getBookById(UUID bookId) {
-        return Optional.empty();
+        return bookRepository.findById(bookId);
     }
 
     @Override
