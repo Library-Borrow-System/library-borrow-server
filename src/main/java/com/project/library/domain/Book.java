@@ -69,4 +69,20 @@ public class Book {
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }
