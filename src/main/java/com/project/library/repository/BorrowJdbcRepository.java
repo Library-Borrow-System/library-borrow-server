@@ -24,11 +24,12 @@ public class BorrowJdbcRepository implements BorrowRepository {
     @Override
     public Borrow insert(Borrow borrow) {
         jdbcTemplate.update(Queries.BORROW_INSERT_SQL.getQuery(), toBorrowParamMap(borrow));
-        borrow.getBorrowItems()
-                .forEach(borrowItem -> jdbcTemplate.update(
-                        Queries.BORROW_ITEM_INSERT_SQL.getQuery(),
-                        toBorrowItemParamMap(borrow.getBorrowId(), borrow.getCreatedAt(), borrow.getUpdatedAt(), borrowItem)
-                ));
+        borrow.getBorrowItems().forEach(borrowItem -> {
+                    jdbcTemplate.update(Queries.BORROW_ITEM_INSERT_SQL.getQuery(),
+                            toBorrowItemParamMap(borrow.getBorrowId(), borrow.getCreatedAt(), borrow.getUpdatedAt(), borrowItem));
+                }
+
+        );
         return borrow;
     }
 
@@ -46,8 +47,22 @@ public class BorrowJdbcRepository implements BorrowRepository {
     }
 
     @Override
-    public Borrow update(Borrow borrow) {
-        return null;
+    public BorrowItem update(Borrow borrow, BorrowItem borrowItem) {
+        int updatedBorrowItem = jdbcTemplate.update(
+                Queries.BORROW_ITEM_UPDATE_SQL.getQuery(),
+                toBorrowItemParamMap(borrow.getBorrowId(), LocalDateTime.now(), borrow.getUpdatedAt(), borrowItem)
+        );
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("borrowId", borrow.getBorrowId().toString().getBytes());
+        paramMap.put("updatedAt", borrow.getUpdatedAt());
+        int updatedBorrow = jdbcTemplate.update(
+                Queries.BORROW_UPDATE_SQL.getQuery(),
+                paramMap
+        );
+        if (updatedBorrow != 1 || updatedBorrowItem != 1) {
+            throw new RuntimeException("Nothing was updated");
+        }
+        return borrowItem;
     }
 
     private Map<String, Object> toBorrowParamMap(Borrow borrow) {
@@ -71,9 +86,9 @@ public class BorrowJdbcRepository implements BorrowRepository {
     private Map<String, Object> toBorrowItemParamMap(UUID borrowId, LocalDateTime createdAt, LocalDateTime updatedAt, BorrowItem borrowItem) {
         HashMap<String, Object> paramMap = new HashMap<>();
         paramMap.put("borrowId", borrowId.toString().getBytes());
-        paramMap.put("bookId", borrowItem.bookId().toString().getBytes());
-        paramMap.put("fee", borrowItem.fee());
-        paramMap.put("term", borrowItem.term());
+        paramMap.put("bookId", borrowItem.getBookId().toString().getBytes());
+        paramMap.put("fee", borrowItem.getFee());
+        paramMap.put("term", borrowItem.getTerm());
         paramMap.put("borrowAt", createdAt);
         paramMap.put("returnAt", updatedAt);
         return paramMap;

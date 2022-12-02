@@ -87,4 +87,19 @@ class BorrowJdbcRepositoryTest {
         assertThat(borrowingItem.isEmpty(), is(false));
     }
 
+    @Test
+    @Order(5)
+    @DisplayName("대여한 책을 반납할 수 있다")
+    public void testUpdateBorrow() {
+        newBorrow.setUpdatedAt(LocalDateTime.now());
+        newBorrowItem.setFee(500);
+        borrowRepository.update(newBorrow, newBorrowItem);
+        List<BorrowItem> borrowingItem = borrowRepository.findBorrowingItem();
+        assertThat(borrowingItem.isEmpty(), is(true));
+
+        List<Borrow> all = borrowRepository.findAll();
+        assertThat(all.isEmpty(), is(false));
+        assertThat(all.get(0).getUpdatedAt(), notNullValue());
+    }
+
 }
