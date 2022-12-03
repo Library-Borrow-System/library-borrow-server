@@ -3,9 +3,11 @@ package com.project.library.controller.api;
 import com.project.library.controller.CreateBookRequest;
 import com.project.library.controller.UpdateBookRequest;
 import com.project.library.domain.Book;
+import com.project.library.domain.Status;
 import com.project.library.service.BookService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,8 +34,11 @@ public class BookController {
     }
 
     @GetMapping("/api/v1/books")
-    public List<Book> getAllBooks() {
-        return bookService.getAllBooks();
+    public List<Book> getAllBooks(@RequestParam(value = "status", required = false) String status) {
+        if (StringUtils.isEmpty(status)) {
+            return bookService.getAllBooks();
+        }
+        return bookService.getBooksByStatus(Status.valueOf(status));
     }
 
     @GetMapping("/api/v1/book/{bookId}")

@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.management.Query;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -36,6 +37,15 @@ public class BookJdbcRepository implements BookRepository {
     @Override
     public List<Book> findAll() {
         return jdbcTemplate.query(Queries.BOOK_FIND_ALL_SQL.getQuery(), bookRowMapper);
+    }
+
+    @Override
+    public List<Book> findByStatus(Status status) {
+        return jdbcTemplate.query(
+                Queries.BOOK_FIND_BY_STATUS_SQL.getQuery(),
+                Collections.singletonMap("status", status.toString()),
+                bookRowMapper
+        );
     }
 
     @Override
