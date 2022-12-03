@@ -5,6 +5,7 @@ import com.project.library.utils.Queries;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -22,14 +23,19 @@ public class BorrowJdbcRepository implements BorrowRepository {
     }
 
     @Override
+    @Transactional
     public Borrow insert(Borrow borrow) {
         jdbcTemplate.update(Queries.BORROW_INSERT_SQL.getQuery(), toBorrowParamMap(borrow));
-        borrow.getBorrowItems().forEach(borrowItem -> {
-                    jdbcTemplate.update(Queries.BORROW_ITEM_INSERT_SQL.getQuery(),
-                            toBorrowItemParamMap(borrow.getBorrowId(), borrow.getCreatedAt(), borrow.getUpdatedAt(), borrowItem));
-                }
 
-        );
+        borrow.getBorrowItems().forEach(borrowItem -> {
+            jdbcTemplate.update(Queries.BORROW_ITEM_INSERT_SQL.getQuery(),
+                    toBorrowItemParamMap(borrow.getBorrowId(), borrow.getCreatedAt(), borrow.getUpdatedAt(), borrowItem));
+
+            HashMap<String, Object> bookParamMap = new HashMap<>();
+            bookParamMap.put("bookId", borrowItem.getBookId().toString().getBytes());
+            bookParamMap.put("status", Status.BORROW_IMPOSSIBLE.toString());
+            jdbcTemplate.update(Queries.BOOK_UPDATE_STATUS_SQL.getQuery(), bookParamMap);
+        });
         return borrow;
     }
 
