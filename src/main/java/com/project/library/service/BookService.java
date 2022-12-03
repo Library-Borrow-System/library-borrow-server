@@ -13,6 +13,7 @@ public interface BookService {
     Book createBook(String title, Category category, int price, String author, String isbn);
 
     List<Book> getAllBooks();
+    List<Book> getBooksByStatus(Status status);
 
     Optional<Book> getBookById(UUID bookId);
 

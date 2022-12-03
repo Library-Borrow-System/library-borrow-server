@@ -32,6 +32,11 @@ public class DefaultBookService implements BookService {
     }
 
     @Override
+    public List<Book> getBooksByStatus(Status status) {
+        return bookRepository.findByStatus(status);
+    }
+
+    @Override
     public Optional<Book> getBookById(UUID bookId) {
         return bookRepository.findById(bookId);
     }
