@@ -21,7 +21,7 @@ public enum Queries {
     BORROW_ITEM_FIND_BORROWING_SQL("SELECT B.title as title, C.email as email, C.phone_num as phone_num, A.borrow_at as borrow_at, A.term as term, A.borrow_id as borrow_id, A.book_id as book_id " +
             "FROM borrow_items A JOIN books B ON A.book_id = B.book_id JOIN borrows C ON A.borrow_id = C.borrow_id " +
             "WHERE B.status = :status"),
-    BORROW_ITEM_UPDATE_SQL("UPDATE borrow_items SET fee = :fee, return_at = :returnAt WHERE borrow_id = UUID_TO_BIN(:borrowId) AND book_id = UUID_TO_BIN(:bookId)");
+    BORROW_ITEM_UPDATE_SQL("UPDATE borrow_items SET return_at = :updatedAt WHERE borrow_id = UUID_TO_BIN(:borrowId) AND book_id = UUID_TO_BIN(:bookId)");
     private final String sql;
 
     Queries(String sql) {

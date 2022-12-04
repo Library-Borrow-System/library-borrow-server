@@ -14,6 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.*;
@@ -83,7 +84,7 @@ class BorrowJdbcRepositoryTest {
     @Order(4)
     @DisplayName("대여 중인 내역을 조회할 수 있다")
     public void testFindBorrowingItem() {
-        List<BorrowItem> borrowingItem = borrowRepository.findBorrowingItem();
+        List<BorrowingItem> borrowingItem = borrowRepository.findBorrowingItem();
         assertThat(borrowingItem.isEmpty(), is(false));
     }
 
@@ -91,15 +92,10 @@ class BorrowJdbcRepositoryTest {
     @Order(5)
     @DisplayName("대여한 책을 반납할 수 있다")
     public void testUpdateBorrow() {
-        newBorrow.setUpdatedAt(LocalDateTime.now());
-        newBorrowItem.setFee(500);
-        borrowRepository.update(newBorrow, newBorrowItem);
-        List<BorrowItem> borrowingItem = borrowRepository.findBorrowingItem();
-        assertThat(borrowingItem.isEmpty(), is(true));
-
-        List<Borrow> all = borrowRepository.findAll();
-        assertThat(all.isEmpty(), is(false));
-        assertThat(all.get(0).getUpdatedAt(), notNullValue());
+        borrowRepository.update(newBorrow.getBorrowId(), newBook.getBookId());
+        Optional<Book> book = bookRepository.findById(newBook.getBookId());
+        assertThat(book.isEmpty(), is(false));
+        assertThat(book.get().getStatus(), is(Status.BORROW_POSSIBLE.toString()));
     }
 
 }

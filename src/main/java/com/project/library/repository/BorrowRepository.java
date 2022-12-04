@@ -16,5 +16,5 @@ public interface BorrowRepository {
 
     List<BorrowingItem> findBorrowingItem();
 
-    BorrowItem update(Borrow borrow, BorrowItem borrowItem);
+    void update(UUID borrowId, UUID bookId);
 }
