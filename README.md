@@ -11,7 +11,7 @@
  
  <br/>
  
-### 🐾 API 명세서
+### 🐾 API 명세서 ( [전체 명세서 바로가기](https://energetic-mimosa-b8e.notion.site/fc9d05f29f2a4c20a7af0d7d56c2e95b?v=2bacf1223cba4ad7bb76fcdbd85a4c4d) )
 
 | 기능명 | url | 명세서 |
 | :-----: | :---: | :---: |
@@ -25,3 +25,23 @@
 | 책 반납 API | [POST] /api/v1/borrow/return?borrowId=""&bookId="" | [명세서 바로가기](https://energetic-mimosa-b8e.notion.site/API-e8d40d9f42ca4bbe9e8180be14028b7a) |
 
 <br/>
+
+### 🌿 Branch Strategy
+
+| Branch Name | 설명 |
+| :---: | :-----: |
+| main | 초기 세팅 존재 |
+| develop | 구현 완료 브랜치 |
+| feature/#issue_num | 이슈 별 기능 구현 브랜치 |
+
+<br/>
+
+### 📁 Project Foldering
+
+<img width="449" alt="image" src="https://user-images.githubusercontent.com/55437339/205481738-8061b6d2-fb8f-4d56-aaca-72219a5431a5.png">
+
+<br/>
+
+### 🥫 ERD
+
+<img width="762" alt="image" src="https://user-images.githubusercontent.com/55437339/205481838-0e4f4cf8-23fe-47fb-ae5f-c0a1f408c837.png">
