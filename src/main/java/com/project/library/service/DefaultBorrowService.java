@@ -27,7 +27,7 @@ public class DefaultBorrowService implements BorrowService {
 
     @Override
     public List<BorrowingItem> getBorrowingItem() {
-        return null;
+        return borrowRepository.findBorrowingItem();
     }
 
     @Override
