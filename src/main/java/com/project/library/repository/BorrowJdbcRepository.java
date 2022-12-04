@@ -45,10 +45,11 @@ public class BorrowJdbcRepository implements BorrowRepository {
     }
 
     @Override
-    public List<BorrowItem> findBorrowingItem() {
+    public List<BorrowingItem> findBorrowingItem() {
         return jdbcTemplate.query(
                 Queries.BORROW_ITEM_FIND_BORROWING_SQL.getQuery(),
-                borrowItemRowMapper
+                Collections.singletonMap("status", Status.BORROW_IMPOSSIBLE.toString()),
+                borrowingItemRowMapper
         );
     }
 
@@ -115,5 +116,16 @@ public class BorrowJdbcRepository implements BorrowRepository {
         int fee = resultSet.getInt("fee");
         int term = resultSet.getInt("term");
         return new BorrowItem(bookId, fee, term);
+    };
+
+    private static final RowMapper<BorrowingItem> borrowingItemRowMapper = (resultSet, i) -> {
+        UUID borrowId = toUUID(resultSet.getBytes("borrow_id"));
+        UUID bookId = toUUID(resultSet.getBytes("book_id"));
+        String title = resultSet.getString("title");
+        String email = resultSet.getString("email");
+        String phoneNum = resultSet.getString("phone_num");
+        LocalDateTime borrowAt = toLocalDateTime(resultSet.getTimestamp("borrow_at"));
+        int term = resultSet.getInt("term");
+        return new BorrowingItem(borrowId, bookId, title, email, phoneNum, borrowAt, term);
     };
 }

@@ -2,6 +2,7 @@ package com.project.library.repository;
 
 import com.project.library.domain.Borrow;
 import com.project.library.domain.BorrowItem;
+import com.project.library.domain.BorrowingItem;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,7 +14,7 @@ public interface BorrowRepository {
 
     List<Borrow> findAll();
 
-    List<BorrowItem> findBorrowingItem();
+    List<BorrowingItem> findBorrowingItem();
 
     BorrowItem update(Borrow borrow, BorrowItem borrowItem);
 }
