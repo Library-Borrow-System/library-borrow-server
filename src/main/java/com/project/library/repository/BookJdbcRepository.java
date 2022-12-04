@@ -8,6 +8,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.management.Query;
 import java.sql.Timestamp;
@@ -72,7 +73,12 @@ public class BookJdbcRepository implements BookRepository {
     }
 
     @Override
+    @Transactional
     public void deleteById(UUID bookId) {
+        jdbcTemplate.update(
+                Queries.BORROW_ITEM_DELETE_BY_BOOK_ID_SQL.getQuery(),
+                Collections.singletonMap("bookId", bookId.toString().getBytes())
+        );
         jdbcTemplate.update(
                 Queries.BOOK_DELETE_BY_ID.getQuery(),
                 Collections.singletonMap("bookId", bookId.toString().getBytes())
