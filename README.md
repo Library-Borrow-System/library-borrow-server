@@ -44,4 +44,5 @@
 
 ### 🥫 ERD
 
-<img width="762" alt="image" src="https://user-images.githubusercontent.com/55437339/205481838-0e4f4cf8-23fe-47fb-ae5f-c0a1f408c837.png">
+<img width="711" alt="image" src="https://user-images.githubusercontent.com/55437339/205498657-6a2775df-5b54-47ce-8762-bc668094bc6f.png">
+
