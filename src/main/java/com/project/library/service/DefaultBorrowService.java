@@ -31,7 +31,7 @@ public class DefaultBorrowService implements BorrowService {
     }
 
     @Override
-    public BorrowItem returnBorrowItem(Borrow borrow, BorrowItem borrowItem) {
-        return null;
+    public void returnBorrowItem(UUID borrowId, UUID bookId) {
+        borrowRepository.update(borrowId, bookId);
     }
 }

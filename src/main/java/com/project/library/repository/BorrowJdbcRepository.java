@@ -54,22 +54,16 @@ public class BorrowJdbcRepository implements BorrowRepository {
     }
 
     @Override
-    public BorrowItem update(Borrow borrow, BorrowItem borrowItem) {
-        int updatedBorrowItem = jdbcTemplate.update(
-                Queries.BORROW_ITEM_UPDATE_SQL.getQuery(),
-                toBorrowItemParamMap(borrow.getBorrowId(), LocalDateTime.now(), borrow.getUpdatedAt(), borrowItem)
-        );
+    @Transactional
+    public void update(UUID borrowId, UUID bookId) {
         HashMap<String, Object> paramMap = new HashMap<>();
-        paramMap.put("borrowId", borrow.getBorrowId().toString().getBytes());
-        paramMap.put("updatedAt", borrow.getUpdatedAt());
-        int updatedBorrow = jdbcTemplate.update(
-                Queries.BORROW_UPDATE_SQL.getQuery(),
-                paramMap
-        );
-        if (updatedBorrow != 1 || updatedBorrowItem != 1) {
-            throw new RuntimeException("Nothing was updated");
-        }
-        return borrowItem;
+        paramMap.put("borrowId", borrowId.toString().getBytes());
+        paramMap.put("bookId", bookId.toString().getBytes());
+        paramMap.put("updatedAt", LocalDateTime.now());
+        paramMap.put("status", Status.BORROW_POSSIBLE.toString());
+        jdbcTemplate.update(Queries.BOOK_UPDATE_STATUS_SQL.getQuery(), paramMap);
+        jdbcTemplate.update(Queries.BORROW_UPDATE_SQL.getQuery(), paramMap);
+        jdbcTemplate.update(Queries.BORROW_ITEM_UPDATE_SQL.getQuery(), paramMap);
     }
 
     private Map<String, Object> toBorrowParamMap(Borrow borrow) {

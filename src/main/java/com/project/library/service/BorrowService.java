@@ -5,6 +5,7 @@ import com.project.library.domain.BorrowItem;
 import com.project.library.domain.BorrowingItem;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface BorrowService {
 
@@ -12,5 +13,5 @@ public interface BorrowService {
 
     List<BorrowingItem> getBorrowingItem();
 
-    BorrowItem returnBorrowItem(Borrow borrow, BorrowItem borrowItem);
+    void returnBorrowItem(UUID borrowId, UUID bookId);
 }

@@ -19,7 +19,8 @@ public class MvcConfiguration implements WebMvcConfigurer {
                         HttpMethod.PATCH.name(),
                         HttpMethod.OPTIONS.name(),
                         HttpMethod.POST.name(),
-                        HttpMethod.DELETE.name()
+                        HttpMethod.DELETE.name(),
+                        HttpMethod.PUT.name()
                 );
     }
 }
