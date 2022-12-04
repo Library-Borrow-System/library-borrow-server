@@ -7,6 +7,7 @@ public enum Queries {
     BOOK_FIND_BY_STATUS_SQL("SELECT * FROM books WHERE status = :status"),
     BOOK_FIND_BY_ID_SQL("SELECT * FROM books WHERE book_id = UUID_TO_BIN(:bookId)"),
     BOOK_UPDATE_SQL("UPDATE books SET category = :category, price = :price, status = :status, updated_at = :updatedAt WHERE book_id = UUID_TO_BIN(:bookId)"),
+    BOOK_UPDATE_STATUS_SQL("UPDATE books SET status = :status WHERE book_id = UUID_TO_BIN(:bookId)"),
     BOOK_DELETE_BY_ID("DELETE FROM books WHERE book_id = UUID_TO_BIN(:bookId)"),
 
     // Borrow
